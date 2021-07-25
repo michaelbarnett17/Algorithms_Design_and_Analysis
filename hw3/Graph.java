@@ -9,19 +9,18 @@ import java.util.List;
 
 class Graph
 {
+    int testFileSize = 3;
 
-    int[][] A = new int[200][];
+    int[][] graph = new int[testFileSize][];
+    ArrayList<Edge> edges = new ArrayList<Edge>();
 
     public int[][] getGraph()
     {
-
-
         try
         {
+            BufferedReader br = new BufferedReader(new FileReader("hw3\\testMinCut.txt"));
 
-            BufferedReader br = new BufferedReader(new FileReader("hw3\\kargerMinCut.txt"));
-
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < testFileSize; i++)
             {
                 String[] st = br.readLine().trim().split("\t+");
                 int [] B = new int[st.length];
@@ -29,30 +28,53 @@ class Graph
                 {
                     B[j] = Integer.parseInt(st[j]);
                 }
-                A[i] = B;
+                graph[i] = B;
             }
-            //printGraph(A);
-            //return A;
-
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
 
-        return A;
-
+        return graph;
     }
 
-    public void printGraph(int[][] A)
+    public void updateEdges(int[][] graph)
     {
-           for (int[] a : A)
+        for (int i = 0; i < graph.length; i++)
+        {
+            int[] a = graph[i];
+            for (int j = 1; j < a.length; j++)
             {
-                for (int b : a)
+                Edge edge = new Edge();
+                edge.point1 = graph[i][0];
+                edge.point2 = graph[i][j];
+                edges.add(edge);
+            }
+        }
+    }
+
+    public void printGraph(int[][] graph)
+    {
+        System.out.println("The Graph");
+        for (int i = 0; i < graph.length; i++)
+        {
+            int[] a = graph[i];
+            for (int j = 0; j < a.length; j++)
             {
+                int b = graph[i][j];
                 System.out.print(b + " ");
             }
-                System.out.println();
-            }
+            System.out.println();
+        }
+    }
+
+    public void printEdges()
+    {
+        for (Edge edge : edges)
+        {
+            System.out.println("Edge ");
+            System.out.println(edge.point1 + " " + edge.point2);
+        }
     }
 }

@@ -12,7 +12,9 @@ class Homework3
     {
         Graph graph = new Graph();
 
-        graph.getGraph();
+        graph.printGraph(graph.getGraph());
+        graph.updateEdges(graph.getGraph());
+        graph.printEdges();
 
     }
 
