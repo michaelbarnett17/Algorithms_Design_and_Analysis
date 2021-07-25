@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 class Graph
@@ -13,6 +14,14 @@ class Graph
 
     int[][] graph = new int[testFileSize][];
     ArrayList<Edge> edges = new ArrayList<Edge>();
+
+    public void contractGraph()
+    {
+        while (graph.length > 2)
+        {
+            // TODO implement contraction
+        }
+    }
 
     public int[][] getGraph()
     {
@@ -67,6 +76,7 @@ class Graph
             }
             System.out.println();
         }
+        System.out.println();
     }
 
     public void printEdges()
