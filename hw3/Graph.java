@@ -10,7 +10,8 @@ import java.util.Random;
 
 class Graph
 {
-    int testFileSize = 3;
+    int testFileSize = 5;
+    String testFileLocation = "hw3\\testMinCut.txt";
 
     int[][] graph = new int[testFileSize][];
     ArrayList<Edge> edges = new ArrayList<Edge>();
@@ -27,7 +28,7 @@ class Graph
     {
         try
         {
-            BufferedReader br = new BufferedReader(new FileReader("hw3\\testMinCut.txt"));
+            BufferedReader br = new BufferedReader(new FileReader(testFileLocation));
 
             for (int i = 0; i < testFileSize; i++)
             {
@@ -44,7 +45,6 @@ class Graph
         {
             e.printStackTrace();
         }
-
         return graph;
     }
 
@@ -53,12 +53,17 @@ class Graph
         for (int i = 0; i < graph.length; i++)
         {
             int[] a = graph[i];
+            // Start index at 1 because the first point in the array is the one that is connected to all other points
             for (int j = 1; j < a.length; j++)
             {
-                Edge edge = new Edge();
-                edge.point1 = graph[i][0];
-                edge.point2 = graph[i][j];
-                edges.add(edge);
+                // this check prevents same edge from being added twice ie. edge [1, 2] will get added but edge [2, 1] won't get added.
+                if (graph[i][0] < graph[i][j])
+                {
+                    Edge edge = new Edge();
+                    edge.point1 = graph[i][0];
+                    edge.point2 = graph[i][j];
+                    edges.add(edge);
+                }
             }
         }
     }
