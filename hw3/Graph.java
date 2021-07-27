@@ -35,8 +35,6 @@ class Graph
 
             edges.remove(edgeIndex);
 
-            // TODO need to update where other edges are pointing?????
-
 
             ArrayList<Integer> newNode = new ArrayList<Integer>();
 
@@ -73,6 +71,10 @@ class Graph
 
             nodes.remove(firstNodeToRemove);
             nodes.remove(secondNodeToRemove);
+
+            // TODO UPDATE ALL OTHER NODES????????
+            // Scan Through All Other Nodes
+            // Wherever old values show up change to new value
 
             System.out.println(" ");
 
