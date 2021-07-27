@@ -13,7 +13,7 @@ class Graph
     int testFileSize = 5;
     String testFileLocation = "hw3\\testMinCut.txt";
 
-    int[][] nodes = new int[testFileSize][];
+    ArrayList<ArrayList<Integer>> nodes = new ArrayList<ArrayList<Integer>>();
     ArrayList<Edge> edges = new ArrayList<Edge>();
 
     public void contractGraph()
@@ -36,7 +36,7 @@ class Graph
         }
     }
 
-    public int[][] getNodesFromFile()
+    public ArrayList<ArrayList<Integer>> getNodesFromFile()
     {
         try
         {
@@ -45,12 +45,13 @@ class Graph
             for (int i = 0; i < testFileSize; i++)
             {
                 String[] st = br.readLine().trim().split("\t+");
-                int [] B = new int[st.length];
+                ArrayList<Integer> B = new ArrayList<Integer>();
+
                 for (int j = 0; j < st.length; j++)
                 {
-                    B[j] = Integer.parseInt(st[j]);
+                    B.add(Integer.parseInt(st[j]));
                 }
-                nodes[i] = B;
+                nodes.add(B);
             }
         }
         catch (Exception e)
@@ -60,35 +61,35 @@ class Graph
         return nodes;
     }
 
-    public void updateEdges(int[][] nodes)
+    public void updateEdges(ArrayList<ArrayList<Integer>> nodes)
     {
-        for (int i = 0; i < nodes.length; i++)
+        for (int i = 0; i < nodes.size(); i++)
         {
-            int[] a = nodes[i];
+            ArrayList<Integer> a = nodes.get(i);
             // Start index at 1 because the first point in the array is the one that is connected to all other points
-            for (int j = 1; j < a.length; j++)
+            for (int j = 1; j < a.size(); j++)
             {
-                // this check prevents same edge from being added twice ie. edge [1, 2] will get added but edge [2, 1] won't get added.
-                if (nodes[i][0] < nodes[i][j])
+                // this check prevents same edge from being added twice ie. edge 1, 2 will get added but edge 2, 1 won't get added.
+                if (nodes.get(i).get(0) < nodes.get(i).get(j))
                 {
                     Edge edge = new Edge();
-                    edge.point1 = nodes[i][0];
-                    edge.point2 = nodes[i][j];
+                    edge.point1 = nodes.get(i).get(0);
+                    edge.point2 = nodes.get(i).get(j);
                     edges.add(edge);
                 }
             }
         }
     }
 
-    public void printNodes(int[][] nodes)
+    public void printNodes(ArrayList<ArrayList<Integer>> nodes)
     {
         System.out.println("The Nodes");
-        for (int i = 0; i < nodes.length; i++)
+        for (int i = 0; i < nodes.size(); i++)
         {
-            int[] a = nodes[i];
-            for (int j = 0; j < a.length; j++)
+            ArrayList<Integer> a = nodes.get(i);
+            for (int j = 0; j < a.size(); j++)
             {
-                int b = nodes[i][j];
+                int b = nodes.get(i).get(j);
                 System.out.print(b + " ");
             }
             System.out.println();

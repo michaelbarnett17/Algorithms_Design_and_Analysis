@@ -17,7 +17,5 @@ class Homework3
         graph.updateEdges(graph.nodes);
 
         graph.contractGraph();
-
     }
-
 }
