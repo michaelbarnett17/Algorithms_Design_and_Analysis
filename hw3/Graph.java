@@ -25,14 +25,57 @@ class Graph
             int edgeIndex = rand.nextInt(edges.size());
             int firstVertex = edges.get(edgeIndex).point1;
             int secondVertex = edges.get(edgeIndex).point2;
-            edges.remove(edgeIndex);
 
             // DEBUG
-            System.out.println("edge " + edgeIndex);
+            printEdges();
+            System.out.println("Contracted Edge " + edgeIndex);
             System.out.println("firstVertex " + firstVertex);
-            System.out.println("nsecondVertex " + secondVertex);
+            System.out.println("secondVertex " +   secondVertex);
             System.out.println("edge list length " + edges.size());
-            System.out.println("");
+
+            edges.remove(edgeIndex);
+
+            // TODO need to update where other edges are pointing?????
+
+
+            ArrayList<Integer> newNode = new ArrayList<Integer>();
+
+            // The id will be the last spot in the list
+            int newNodeId = nodes.size();
+            // The id is the first element
+            newNode.add(newNodeId);
+            nodes.add(newNode);
+
+            ArrayList<Integer> firstNodeToRemove = null;
+            ArrayList<Integer> secondNodeToRemove = null;
+
+            // Merge all points from first vertex (don't merge the 0 index)
+            for (ArrayList<Integer> A : nodes) 
+            {
+                if (A.get(0) == firstVertex)
+                {
+                    System.out.println("Sublist A " + A.subList(1, A.size()));
+                    newNode.addAll(A.subList(1, A.size()));
+                    firstNodeToRemove = A;
+                }
+            }
+
+            // Merge all points from second vertex (don't merge the 0 index)
+            for (ArrayList<Integer> B : nodes) 
+            {
+                if (B.get(0) == secondVertex)
+                {
+                    System.out.println("Sublist B " + B.subList(1, B.size()));
+                    newNode.addAll(B.subList(1, B.size()));
+                    secondNodeToRemove = B;
+                }
+            }
+
+            nodes.remove(firstNodeToRemove);
+            nodes.remove(secondNodeToRemove);
+
+            System.out.println(" ");
+
         }
     }
 
@@ -46,7 +89,7 @@ class Graph
             {
                 String[] st = br.readLine().trim().split("\t+");
                 ArrayList<Integer> B = new ArrayList<Integer>();
-
+                
                 for (int j = 0; j < st.length; j++)
                 {
                     B.add(Integer.parseInt(st[j]));
@@ -101,8 +144,8 @@ class Graph
     {
         for (Edge edge : edges)
         {
-            System.out.println("Edge ");
-            System.out.println(edge.point1 + " " + edge.point2);
+            System.out.print(edge.point1 + " " + edge.point2 + ", ");
         }
+        System.out.println(" ");
     }
 }
