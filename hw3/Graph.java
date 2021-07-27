@@ -13,18 +13,30 @@ class Graph
     int testFileSize = 5;
     String testFileLocation = "hw3\\testMinCut.txt";
 
-    int[][] graph = new int[testFileSize][];
+    int[][] nodes = new int[testFileSize][];
     ArrayList<Edge> edges = new ArrayList<Edge>();
 
     public void contractGraph()
     {
-        while (graph.length > 2)
+        while (edges.size() > 2)
         {
-            // TODO implement contraction
+
+            Random rand = new Random();
+            int edgeIndex = rand.nextInt(edges.size());
+            int firstVertex = edges.get(edgeIndex).point1;
+            int secondVertex = edges.get(edgeIndex).point2;
+            edges.remove(edgeIndex);
+
+            // DEBUG
+            System.out.println("edge " + edgeIndex);
+            System.out.println("firstVertex " + firstVertex);
+            System.out.println("nsecondVertex " + secondVertex);
+            System.out.println("edge list length " + edges.size());
+            System.out.println("");
         }
     }
 
-    public int[][] getGraph()
+    public int[][] getNodesFromFile()
     {
         try
         {
@@ -38,45 +50,45 @@ class Graph
                 {
                     B[j] = Integer.parseInt(st[j]);
                 }
-                graph[i] = B;
+                nodes[i] = B;
             }
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
-        return graph;
+        return nodes;
     }
 
-    public void updateEdges(int[][] graph)
+    public void updateEdges(int[][] nodes)
     {
-        for (int i = 0; i < graph.length; i++)
+        for (int i = 0; i < nodes.length; i++)
         {
-            int[] a = graph[i];
+            int[] a = nodes[i];
             // Start index at 1 because the first point in the array is the one that is connected to all other points
             for (int j = 1; j < a.length; j++)
             {
                 // this check prevents same edge from being added twice ie. edge [1, 2] will get added but edge [2, 1] won't get added.
-                if (graph[i][0] < graph[i][j])
+                if (nodes[i][0] < nodes[i][j])
                 {
                     Edge edge = new Edge();
-                    edge.point1 = graph[i][0];
-                    edge.point2 = graph[i][j];
+                    edge.point1 = nodes[i][0];
+                    edge.point2 = nodes[i][j];
                     edges.add(edge);
                 }
             }
         }
     }
 
-    public void printGraph(int[][] graph)
+    public void printNodes(int[][] nodes)
     {
-        System.out.println("The Graph");
-        for (int i = 0; i < graph.length; i++)
+        System.out.println("The Nodes");
+        for (int i = 0; i < nodes.length; i++)
         {
-            int[] a = graph[i];
+            int[] a = nodes[i];
             for (int j = 0; j < a.length; j++)
             {
-                int b = graph[i][j];
+                int b = nodes[i][j];
                 System.out.print(b + " ");
             }
             System.out.println();

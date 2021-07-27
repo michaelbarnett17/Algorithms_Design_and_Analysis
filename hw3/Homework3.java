@@ -12,9 +12,11 @@ class Homework3
     {
         Graph graph = new Graph();
 
-        graph.printGraph(graph.getGraph());
-        graph.updateEdges(graph.getGraph());
-        graph.printEdges();
+        graph.nodes = graph.getNodesFromFile();
+        graph.printNodes(graph.nodes);
+        graph.updateEdges(graph.nodes);
+
+        graph.contractGraph();
 
     }
 
