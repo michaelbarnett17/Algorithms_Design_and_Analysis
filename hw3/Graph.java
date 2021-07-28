@@ -4,55 +4,52 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Set;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Random;
 
-
 class Graph
 {
-    int testFileSize = 5;
-    String testFileLocation = "hw3\\testMinCut.txt";
-
+    int testFileSize = 200;
+    int initialNewId = testFileSize;
+    String testFileLocation = "hw3\\kargerMinCut.txt";
     ArrayList<ArrayList<Integer>> nodes = new ArrayList<ArrayList<Integer>>();
     ArrayList<Edge> edges = new ArrayList<Edge>();
 
     public void contractGraph()
     {
-        while (edges.size() > 2)
+        while (nodes.size() > 2)
         {
-
             Random rand = new Random();
             int edgeIndex = rand.nextInt(edges.size());
             int firstVertex = edges.get(edgeIndex).point1;
             int secondVertex = edges.get(edgeIndex).point2;
+            int newNodeId = ++initialNewId;
 
-            // DEBUG
-            printEdges();
-            System.out.println("Contracted Edge " + edgeIndex);
-            System.out.println("firstVertex " + firstVertex);
-            System.out.println("secondVertex " +   secondVertex);
-            System.out.println("edge list length " + edges.size());
+            // System.out.println("START NEW CONTRACTION \n\nBefore Contraction\n");
+            // printNodes(nodes);
+            // printEdges();
+            // System.out.println("Edge index to contract " + edgeIndex);
+            // System.out.println("First Vertex " + firstVertex);
+            // System.out.println("Second Vertex " +  secondVertex);
+            // System.out.println("Id of new Vertex " +  initialNewId);
+            // System.out.println("Edge list length " + edges.size());
+            // System.out.println(" ");
 
             edges.remove(edgeIndex);
 
-
-            ArrayList<Integer> newNode = new ArrayList<Integer>();
-
-            // The id will be the last spot in the list
-            int newNodeId = nodes.size();
-            // The id is the first element
-            newNode.add(newNodeId);
-            nodes.add(newNode);
-
+            ArrayList<Integer> newNode = new ArrayList<Integer>();      
             ArrayList<Integer> firstNodeToRemove = null;
             ArrayList<Integer> secondNodeToRemove = null;
 
+            newNode.add(newNodeId);
             // Merge all points from first vertex (don't merge the 0 index)
             for (ArrayList<Integer> A : nodes) 
             {
                 if (A.get(0) == firstVertex)
                 {
-                    System.out.println("Sublist A " + A.subList(1, A.size()));
                     newNode.addAll(A.subList(1, A.size()));
                     firstNodeToRemove = A;
                 }
@@ -63,7 +60,6 @@ class Graph
             {
                 if (B.get(0) == secondVertex)
                 {
-                    System.out.println("Sublist B " + B.subList(1, B.size()));
                     newNode.addAll(B.subList(1, B.size()));
                     secondNodeToRemove = B;
                 }
@@ -71,13 +67,30 @@ class Graph
 
             nodes.remove(firstNodeToRemove);
             nodes.remove(secondNodeToRemove);
+            updateNodes(firstVertex, secondVertex, newNodeId);
 
-            // TODO UPDATE ALL OTHER NODES????????
-            // Scan Through All Other Nodes
-            // Wherever old values show up change to new value
+            newNode.removeAll(Collections.singleton(firstVertex));
+            newNode.removeAll(Collections.singleton(secondVertex));
 
-            System.out.println(" ");
+            nodes.add(newNode);
+            edges.clear();
+            createEdges(nodes);
+        }
+    }
 
+    public void updateNodes(int firstVertex, int secondVertex, int newNodeId)
+    {
+        for (int i = 0; i < nodes.size(); i++)
+        {
+            ArrayList<Integer> a = nodes.get(i);
+            for (int j = 1; j < a.size(); j++)
+            {
+                if (a.get(j) == firstVertex || a.get(j) == secondVertex)
+                {
+                    a.set(j, newNodeId);
+                    nodes.set(i, a); 
+                }
+            }
         }
     }
 
@@ -98,6 +111,7 @@ class Graph
                 }
                 nodes.add(B);
             }
+            br.close();
         }
         catch (Exception e)
         {
@@ -106,7 +120,7 @@ class Graph
         return nodes;
     }
 
-    public void updateEdges(ArrayList<ArrayList<Integer>> nodes)
+    public void createEdges(ArrayList<ArrayList<Integer>> nodes)
     {
         for (int i = 0; i < nodes.size(); i++)
         {
@@ -128,7 +142,7 @@ class Graph
 
     public void printNodes(ArrayList<ArrayList<Integer>> nodes)
     {
-        System.out.println("The Nodes");
+        System.out.println("The Nodes: ");
         for (int i = 0; i < nodes.size(); i++)
         {
             ArrayList<Integer> a = nodes.get(i);
@@ -144,10 +158,12 @@ class Graph
 
     public void printEdges()
     {
+        System.out.println("The Edges: ");
         for (Edge edge : edges)
         {
             System.out.print(edge.point1 + " " + edge.point2 + ", ");
         }
+        System.out.println(" ");
         System.out.println(" ");
     }
 }

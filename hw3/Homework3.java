@@ -10,12 +10,20 @@ class Homework3
 {
     public static void main(String args[])
     {
-        Graph graph = new Graph();
+        int minCut = 10000; //Hax
 
-        graph.nodes = graph.getNodesFromFile();
-        graph.printNodes(graph.nodes);
-        graph.updateEdges(graph.nodes);
-
-        graph.contractGraph();
+        for (int i = 0; i < 1000; i++)
+        {
+            Graph graph = new Graph();
+            graph.nodes = graph.getNodesFromFile();
+            graph.createEdges(graph.nodes);
+            graph.contractGraph();
+    
+            if (graph.edges.size() < minCut)
+            {
+                minCut = graph.edges.size();
+            }
+        }
+        System.out.println("The mincut is: " + minCut);
     }
 }
