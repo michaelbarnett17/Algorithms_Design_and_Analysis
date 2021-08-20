@@ -7,5 +7,8 @@ class Homework4
         Graph graph = new Graph();
         graph.getEdgesFromFile();
         graph.printEdges();
+
+        graph.createNodes();
+        graph.printNodes();
     }
 }
