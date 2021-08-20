@@ -9,7 +9,10 @@ class Graph
     ArrayList<Edge> edges = new ArrayList<Edge>();
     HashMap<Integer, Node> nodes = new HashMap<Integer, Node>();
 
-    public void getEdgesFromFile()
+    ArrayList<Edge> edgesRev = new ArrayList<Edge>();
+    HashMap<Integer, Node> nodesRev = new HashMap<Integer, Node>();
+
+    public void getEdges(String direction, ArrayList<Edge> edges)
     {
         try
         {   
@@ -21,9 +24,16 @@ class Graph
                 String[] st = line.trim().split(" ");
                 Edge edge = new Edge();
 
-                edge.point1 = Integer.parseInt(st[0]);
-                edge.point2 = Integer.parseInt(st[1]);
-                
+                if (direction == "normal")
+                {
+                    edge.point1 = Integer.parseInt(st[0]);
+                    edge.point2 = Integer.parseInt(st[1]);
+                }
+                else if (direction == "reversed")
+                {
+                    edge.point1 = Integer.parseInt(st[1]);
+                    edge.point2 = Integer.parseInt(st[0]);                    
+                }
                 edges.add(edge);
             }
             br.close();
@@ -32,9 +42,9 @@ class Graph
         {
             e.printStackTrace();
         }
-    }
+    } 
 
-    public void createNodes()
+    public void createNodes(ArrayList<Edge> edges, HashMap<Integer, Node> nodes)
     {
         for (Edge edge : edges) 
         {
@@ -56,22 +66,23 @@ class Graph
         }
     }
 
-    public void printEdges()
+    public void printEdges(ArrayList<Edge> edges)
     {
         System.out.println("The Edges: ");
         for (Edge edge : edges)
         {
             System.out.println(edge.point1 + " " + edge.point2);
         }
+        System.out.println(" ");
     }
 
-    public void printNodes()
+    public void printNodes(HashMap<Integer, Node> nodes)
     {
         System.out.println("The Nodes");
         for (Integer nodeId: nodes.keySet())
         {
             Node node = nodes.get(nodeId);
-            System.out.print(nodeId + " ");
+            System.out.print(nodeId + " arcs: ");
             for (Integer arc : node.arcs)
             {
                 System.out.print(arc + " ");
