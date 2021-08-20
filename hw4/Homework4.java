@@ -8,14 +8,16 @@ class Homework4
 
         // Normal Graph
         graph.getEdges("normal", graph.edges);
-        graph.printEdges(graph.edges);
         graph.createNodes(graph.edges, graph.nodes);
-        graph.printNodes(graph.nodes);
+        // graph.printEdges(graph.edges);
+        // graph.printNodes(graph.nodes);
 
         // Reversed Graph
         graph.getEdges("reversed", graph.edgesRev);
-        graph.printEdges(graph.edgesRev);
         graph.createNodes(graph.edgesRev, graph.nodesRev);
-        graph.printNodes(graph.nodesRev);
+        // graph.printEdges(graph.edgesRev);
+        // graph.printNodes(graph.nodesRev);
+
+        graph.dfsLoop(graph.nodesRev);
     }
 }

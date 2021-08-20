@@ -7,10 +7,11 @@ class Graph
 {
     String testFile = "hw4\\SCC_Test.txt";
     ArrayList<Edge> edges = new ArrayList<Edge>();
-    HashMap<Integer, Node> nodes = new HashMap<Integer, Node>();
-
     ArrayList<Edge> edgesRev = new ArrayList<Edge>();
+    HashMap<Integer, Node> nodes = new HashMap<Integer, Node>();
     HashMap<Integer, Node> nodesRev = new HashMap<Integer, Node>();
+    // HAX
+    int nodeQty = 9;
 
     public void getEdges(String direction, ArrayList<Edge> edges)
     {
@@ -64,6 +65,33 @@ class Graph
             // Only add arc from point1 to point2
             nodes.get(edge.point1).arcs.add(edge.point2);    
         }
+    }
+
+    public void dfsLoop(HashMap<Integer, Node> nodes)
+    {
+        Integer t = 0;
+        Integer s = null;
+
+        for (int i = nodeQty; i > 0; i--) {
+ 
+            if (nodes.get(i).explored == false)
+            {
+                s = i;
+                depthFirstSearch(nodes, nodes.get(i));
+
+            }
+            
+            System.out.print("Key = " + i);
+            nodes.get(i).printArcs();
+            System.out.println(" ");
+
+
+        }
+    }
+
+    public void depthFirstSearch(HashMap<Integer, Node> nodesRev, Node node)
+    {
+
     }
 
     public void printEdges(ArrayList<Edge> edges)
