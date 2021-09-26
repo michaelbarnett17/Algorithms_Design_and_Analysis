@@ -10,6 +10,12 @@ class Graph
     ArrayList<Edge> edgesRev = new ArrayList<Edge>();
     HashMap<Integer, Node> nodes = new HashMap<Integer, Node>();
     HashMap<Integer, Node> nodesRev = new HashMap<Integer, Node>();
+    
+    // Order by finishing time
+    List<Node> orderedNodes = new ArrayList<Node>();
+
+
+
     // HAX
     int nodeQty = 9;
 
@@ -59,39 +65,51 @@ class Graph
             if(nodes.get(edge.point2) == null)
             {
                 Node node = new Node();
-                nodes.put(edge.point2, node);               
+                nodes.put(edge.point2, node);     
             }
 
             // Only add arc from point1 to point2
             nodes.get(edge.point1).arcs.add(edge.point2);    
         }
     }
+    
+    // For First Pass
+    Integer t = 0;
+
+    // For Second Pass
+    Integer s = null;
 
     public void dfsLoop(HashMap<Integer, Node> nodes)
     {
-        Integer t = 0;
-        Integer s = null;
-
         for (int i = nodeQty; i > 0; i--) {
  
             if (nodes.get(i).explored == false)
             {
                 s = i;
                 depthFirstSearch(nodes, nodes.get(i));
-
             }
             
-            System.out.print("Key = " + i);
-            nodes.get(i).printArcs();
-            System.out.println(" ");
-
-
+            // System.out.print("Key = " + i);
+            // nodes.get(i).printArcs();
+            // System.out.println(" ");
         }
     }
 
-    public void depthFirstSearch(HashMap<Integer, Node> nodesRev, Node node)
+    public void depthFirstSearch(HashMap<Integer, Node> nodes, Node node)
     {
+        node.explored = true;
+        node.leader = s;
 
+        for (Integer outgoingArc : node.arcs) 
+        {
+            if (nodes.get(outgoingArc).explored == false)
+            {
+                // System.out.println(outgoingArc);
+                depthFirstSearch(nodes, nodes.get(outgoingArc));
+            }
+        }
+        t++;
+        node.finishTime = t;
     }
 
     public void printEdges(ArrayList<Edge> edges)

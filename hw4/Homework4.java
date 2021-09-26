@@ -1,5 +1,7 @@
 package hw4;
 
+import java.util.*;
+
 class Homework4 
 {
     public static void main(String args[])
@@ -19,5 +21,15 @@ class Homework4
         // graph.printNodes(graph.nodesRev);
 
         graph.dfsLoop(graph.nodesRev);
+
+        for (Map.Entry<Integer, Node> entry : graph.nodesRev.entrySet()) {
+            Integer key = entry.getKey();
+            Node value = entry.getValue();
+            System.out.print("Node Index: " + key + " ");
+            System.out.print("Finish Time: " + value.finishTime);
+            System.out.println();
+        }
+
+
     }
 }
