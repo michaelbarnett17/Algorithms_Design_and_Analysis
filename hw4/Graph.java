@@ -187,11 +187,10 @@ class Graph
             {
                 System.out.print(arc + " ");
             }
+            System.out.print("       with leaders: " + node.leader);
             System.out.println(" ");
         }
 
     }
-
-
 
 }

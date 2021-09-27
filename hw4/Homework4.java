@@ -24,8 +24,9 @@ class Homework4
         // graph.printReversedFinishTimes();
 
         graph.createNewForwardGraph();
-        graph.printNodes(graph.nodesNew);
 
+        graph.dfsLoop(graph.nodesNew);
+        graph.printNodes(graph.nodesNew);
 
     }
 }
