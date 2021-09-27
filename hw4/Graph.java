@@ -5,47 +5,55 @@ import java.util.*;
 
 class Graph
 {
+    int nodeQty = 9;
+    // int nodeQty = 875714;
 
-//// HAX: UPDATE THIS NUMBER TO THE TOTAL NUMBER OF NODES FROM INPUT FILE
-//// ALSO BE SURE TO CHANGE THIS TO THE RIGHT NUMBER
-    // int nodeQty = 9;
-    int nodeQty = 875714;
+    int upperBoundsLeaderQty = 10;
+    // int upperBoundsLeaderQty = 1000000;
 
-////HAX: MAKE SURE THIS NUMBER IS GREATER THAN NUMBER OF LEADERS
-    List<Integer> leaders = new ArrayList<Integer>(Collections.nCopies(1000000, 0));   
-
-////// BE SURE TO SET THE CORRECT FILE NAME
-    // String testFile = "hw4\\SCC_Test.txt";    
-    String testFile = "hw4\\SCC.txt";
+    String fileName;
 
     // Forward Graph
-    ArrayList<Edge> edges = new ArrayList<Edge>();
-    HashMap<Integer, Node> nodes = new HashMap<Integer, Node>();
+    ArrayList<Edge> edges;
+    HashMap<Integer, Node> nodes;
 
     // Reversed Graph
-    ArrayList<Edge> edgesRev = new ArrayList<Edge>();
-    HashMap<Integer, Node> nodesRev = new HashMap<Integer, Node>();
+    ArrayList<Edge> edgesRev;
+    HashMap<Integer, Node> nodesRev;
 
     // Renumbered Forward Graph
-    // List of edges no longer needed, map of nodes will contain all graph information
-    HashMap<Integer, Node> nodesNew = new HashMap<Integer, Node>();
+    HashMap<Integer, Node> nodesNew;
     
     // Order by finishing time
-    List<Node> orderedNodes = new ArrayList<Node>();
+    List<Node> orderedNodes;
 
     // For First Pass
-    Integer t = 0;
+    Integer t;
 
     // For Second Pass
-    Integer s = null;
+    Integer s;
 
+    List<Integer> leaders;
 
+    public Graph(String fileName)
+    {
+        this.fileName = fileName;
+        this.edges = new ArrayList<Edge>();
+        this.nodes = new HashMap<Integer, Node>();
+        this.edgesRev = new ArrayList<Edge>();
+        this.nodesRev = new HashMap<Integer, Node>();
+        this.nodesNew = new HashMap<Integer, Node>();
+        this.orderedNodes = new ArrayList<Node>();
+        this.t = 0;
+        this.s = null;
+        this.leaders = new ArrayList<Integer>(Collections.nCopies(upperBoundsLeaderQty, 0));
+    }
 
     public void getEdges(String direction, ArrayList<Edge> edges)
     {
         try
         {   
-            BufferedReader br = new BufferedReader(new FileReader(testFile));
+            BufferedReader br = new BufferedReader(new FileReader(fileName));
             String line;
 
             while ((line = br.readLine()) != null)
@@ -104,10 +112,6 @@ class Graph
                 s = i;
                 depthFirstSearch(nodes, nodes.get(i));
             }
-            
-            // System.out.print("Key = " + i);
-            // nodes.get(i).printArcs();
-            // System.out.println(" ");
         }
     }
 
@@ -120,7 +124,6 @@ class Graph
         {
             if (nodes.get(outgoingArc).explored == false)
             {
-                // System.out.println(outgoingArc);
                 depthFirstSearch(nodes, nodes.get(outgoingArc));
             }
         }
@@ -136,18 +139,10 @@ class Graph
             Integer key = entry.getKey();
             Node node = entry.getValue();
 
-            // System.out.print("Key: " + key  + " ");
-            // System.out.print("Values: " + node.arcs);
-            // System.out.println();
-
-
             Node newNode = new Node();
             int newKey = nodesRev.get(key).finishTime;
             newNode.arcs = renumberArcs(node.arcs);
 
-            // System.out.print("New Key: " + newKey  + " ");
-            // System.out.print("New Values: " + newNode.arcs);
-            // System.out.println();
             nodesNew.put(newKey, newNode);
         }      
     }
@@ -158,7 +153,6 @@ class Graph
         for (Integer arc : arcs)
         {
             newArcs.add(nodesRev.get(arc).finishTime);
-            // System.out.println("NEW ARC " + nodesRev.get(arc).finishTime);
         }
         return newArcs;
     }
@@ -190,10 +184,6 @@ class Graph
         {
             Integer key = entry.getKey();
             Node value = entry.getValue();
-
-            // System.out.print("Node Index: " + key + " ");
-            // System.out.print("Finish Time: " + value.finishTime);
-            // System.out.println();
         }        
     }
 
@@ -221,7 +211,5 @@ class Graph
             System.out.print("       with leaders: " + node.leader);
             System.out.println(" ");
         }
-
     }
-
 }
