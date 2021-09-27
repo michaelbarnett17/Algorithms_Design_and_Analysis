@@ -6,6 +6,8 @@ class Homework4
 {
     public static void main(String args[])
     {
+        //NOTE: need to increase Java stack size to run this
+        // java -Xss16M hw4/Homework4
         Graph graph = new Graph();
 
         // Normal Graph
@@ -26,7 +28,12 @@ class Homework4
         graph.createNewForwardGraph();
 
         graph.dfsLoop(graph.nodesNew);
-        graph.printNodes(graph.nodesNew);
 
+        // graph.printNodes(graph.nodesNew);
+
+        graph.populateLeaders();
+
+        // System.out.println(graph.leaders);
+        graph.findFiveLargestSCCs();
     }
 }

@@ -5,10 +5,18 @@ import java.util.*;
 
 class Graph
 {
-////HAX: UPDATE THIS NUMBER TO THE TOTAL NUMBER OF NODES FROM INPUT FILE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    int nodeQty = 9;
 
-    String testFile = "hw4\\SCC_Test.txt";
+//// HAX: UPDATE THIS NUMBER TO THE TOTAL NUMBER OF NODES FROM INPUT FILE
+//// ALSO BE SURE TO CHANGE THIS TO THE RIGHT NUMBER
+    // int nodeQty = 9;
+    int nodeQty = 875714;
+
+////HAX: MAKE SURE THIS NUMBER IS GREATER THAN NUMBER OF LEADERS
+    List<Integer> leaders = new ArrayList<Integer>(Collections.nCopies(1000000, 0));   
+
+////// BE SURE TO SET THE CORRECT FILE NAME
+    // String testFile = "hw4\\SCC_Test.txt";    
+    String testFile = "hw4\\SCC.txt";
 
     // Forward Graph
     ArrayList<Edge> edges = new ArrayList<Edge>();
@@ -30,6 +38,8 @@ class Graph
 
     // For Second Pass
     Integer s = null;
+
+
 
     public void getEdges(String direction, ArrayList<Edge> edges)
     {
@@ -151,6 +161,27 @@ class Graph
             // System.out.println("NEW ARC " + nodesRev.get(arc).finishTime);
         }
         return newArcs;
+    }
+
+    public void populateLeaders()
+    {
+        for (Map.Entry<Integer, Node> entry : nodesNew.entrySet())
+        {
+            int leader = entry.getValue().leader;
+            int newValue = leaders.get(leader) + 1;
+
+            leaders.set(leader, newValue);
+        }      
+    }
+
+    public void findFiveLargestSCCs() 
+    {
+        for(int i = 0; i < 5; i++)
+        {
+            Integer maxValue = Collections.max(leaders);
+            System.out.println(maxValue);
+            leaders.remove(leaders.indexOf(maxValue));
+        }
     }
 
     public void printReversedFinishTimes()
