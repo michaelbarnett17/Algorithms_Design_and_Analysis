@@ -21,14 +21,10 @@ class Homework4
         // graph.printNodes(graph.nodesRev);
 
         graph.dfsLoop(graph.nodesRev);
+        // graph.printReversedFinishTimes();
 
-        for (Map.Entry<Integer, Node> entry : graph.nodesRev.entrySet()) {
-            Integer key = entry.getKey();
-            Node value = entry.getValue();
-            System.out.print("Node Index: " + key + " ");
-            System.out.print("Finish Time: " + value.finishTime);
-            System.out.println();
-        }
+        graph.createNewForwardGraph();
+        graph.printNodes(graph.nodesNew);
 
 
     }

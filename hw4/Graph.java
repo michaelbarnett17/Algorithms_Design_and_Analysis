@@ -5,19 +5,31 @@ import java.util.*;
 
 class Graph
 {
+////HAX: UPDATE THIS NUMBER TO THE TOTAL NUMBER OF NODES FROM INPUT FILE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    int nodeQty = 9;
+
     String testFile = "hw4\\SCC_Test.txt";
+
+    // Forward Graph
     ArrayList<Edge> edges = new ArrayList<Edge>();
-    ArrayList<Edge> edgesRev = new ArrayList<Edge>();
     HashMap<Integer, Node> nodes = new HashMap<Integer, Node>();
+
+    // Reversed Graph
+    ArrayList<Edge> edgesRev = new ArrayList<Edge>();
     HashMap<Integer, Node> nodesRev = new HashMap<Integer, Node>();
+
+    // Renumbered Forward Graph
+    // List of edges no longer needed, map of nodes will contain all graph information
+    HashMap<Integer, Node> nodesNew = new HashMap<Integer, Node>();
     
     // Order by finishing time
     List<Node> orderedNodes = new ArrayList<Node>();
 
+    // For First Pass
+    Integer t = 0;
 
-
-    // HAX
-    int nodeQty = 9;
+    // For Second Pass
+    Integer s = null;
 
     public void getEdges(String direction, ArrayList<Edge> edges)
     {
@@ -73,12 +85,6 @@ class Graph
         }
     }
     
-    // For First Pass
-    Integer t = 0;
-
-    // For Second Pass
-    Integer s = null;
-
     public void dfsLoop(HashMap<Integer, Node> nodes)
     {
         for (int i = nodeQty; i > 0; i--) {
@@ -110,6 +116,54 @@ class Graph
         }
         t++;
         node.finishTime = t;
+    }
+
+    // New graph created based on finishing times of reversed graph
+    public void createNewForwardGraph()
+    {
+        for (Map.Entry<Integer, Node> entry : nodes.entrySet())
+        {
+            Integer key = entry.getKey();
+            Node node = entry.getValue();
+
+            // System.out.print("Key: " + key  + " ");
+            // System.out.print("Values: " + node.arcs);
+            // System.out.println();
+
+
+            Node newNode = new Node();
+            int newKey = nodesRev.get(key).finishTime;
+            newNode.arcs = renumberArcs(node.arcs);
+
+            // System.out.print("New Key: " + newKey  + " ");
+            // System.out.print("New Values: " + newNode.arcs);
+            // System.out.println();
+            nodesNew.put(newKey, newNode);
+        }      
+    }
+
+    public Set<Integer> renumberArcs(Set<Integer> arcs)
+    {
+        Set<Integer> newArcs = new HashSet<Integer>();
+        for (Integer arc : arcs)
+        {
+            newArcs.add(nodesRev.get(arc).finishTime);
+            // System.out.println("NEW ARC " + nodesRev.get(arc).finishTime);
+        }
+        return newArcs;
+    }
+
+    public void printReversedFinishTimes()
+    {
+        for (Map.Entry<Integer, Node> entry : nodesRev.entrySet())
+        {
+            Integer key = entry.getKey();
+            Node value = entry.getValue();
+
+            // System.out.print("Node Index: " + key + " ");
+            // System.out.print("Finish Time: " + value.finishTime);
+            // System.out.println();
+        }        
     }
 
     public void printEdges(ArrayList<Edge> edges)
