@@ -11,5 +11,7 @@ class Homework5
 
         Graph graph = new Graph(fileName);
         graph.getEdges();
+        graph.printNodes();
+        graph.printEdges();
     }
 }

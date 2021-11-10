@@ -4,7 +4,7 @@ import java.util.*;
 
 class Node
 {
-    public Set<Integer> arcs = new HashSet<Integer>();
+    public Set<Edge> edges = new HashSet<Edge>();
     public int pathLength;
     public boolean isInX;
 

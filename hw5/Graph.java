@@ -38,25 +38,49 @@ class Graph
 
     public void processInputLine(String[] strings)
     {
-        System.out.println(Arrays.toString(strings));
+        // System.out.println(Arrays.toString(strings));
+        Node node = new Node();
 
+        for (int i = 0; i < strings.length; i++)
+        {
+            if (i != 0)
+            {
+                Edge edge = new Edge();
+                edge.point1 = Integer.parseInt(strings[0]);            
+                String[] tuple = strings[i].split(",");
+                edge.point2 = Integer.parseInt(tuple[0]);
+                edge.length = Integer.parseInt(tuple[1]);
+                edges.add(edge);
+                node.edges.add(edge);
+            }
+        }
 
-        // strings[0] is first point of edge
-        // For each reamining strings in strings (each reamining is a tuple)
-            // new edge
-            // edge.point1 = strings[0]
-            // split string based on comma
-            // edge.point2 = first half of tuple (before the comma)
-            // edge.length = second half of tuple (after the comma)
-            // add new edge to edges list
-
-        // OLD CODE - STILL MAY BE USEFUL
-        // Edge edge = new Edge();
-        // edge.point1 = Integer.parseInt(st[0]);
-        // edge.point2 = Integer.parseInt(st[1]);
-        // edge.length = Integer.parse????
-
-
+        nodes.put(Integer.parseInt(strings[0]), node);
     }
+
+    public void printNodes() 
+    {
+        System.out.println("These are the nodes---------------");
+        for (Map.Entry<Integer, Node> entry : nodes.entrySet())
+        {
+            System.out.print("Location in Map = " + entry.getKey());
+            System.out.print(" Has : ");
+            for (Edge edge : entry.getValue().edges)
+            {
+                System.out.print(edge.point1 + "," + edge.point2 + " length-" + edge.length +"; ");
+            }
+            System.out.println("");
+        }
+    }
+
+    public void printEdges() 
+    {
+        System.out.println("These are the edges---------------");
+        for (Edge edge : edges)
+        {
+            System.out.println(edge.point1 + "," + edge.point2);
+        }
+    }
+
 
 }
