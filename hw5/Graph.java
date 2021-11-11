@@ -8,13 +8,78 @@ class Graph
     String fileName;
     ArrayList<Edge> edges;
     HashMap<Integer, Node> nodes;
+    Node[] processedNodes; 
+    ArrayList<Integer> distances;
 
     public Graph(String fileName) 
     {
         this.fileName = fileName;
         this.edges = new ArrayList<Edge>();
         this.nodes = new HashMap<Integer, Node>();
+        this.processedNodes = new Node[5];
+        // placeholder since nodes start at 1
+        this.processedNodes[0] = null;
+
     }
+
+    public void calculateShortestPaths()
+    {
+
+        nodes.get(1).pathLength = 0;
+        processedNodes[1] = nodes.get(1);
+        nodes.remove(1);
+        
+
+        while(nodes.size() != 0) 
+        {
+            ArrayList<Edge> candidateEdges = getEdgesWithOneNodeProcessed();
+
+            Edge edge = getGreedyEdge(candidateEdges);
+
+             System.out.print("This is the greedy edge: " + edge.point1 + "," +edge.point2 + " length-" + edge.length);
+            // TODO: Continue with alogrithm
+            //Remove the correct node here?
+
+            // TODO Remove Break
+            break;
+        }
+    }
+
+    public Edge getGreedyEdge(ArrayList<Edge> candidateEdges)
+    {   
+        Edge currentMinimumEdge = new Edge();
+        
+        // MAY HAVE TO CHANGE THIS
+        int currentMinGreedyLength = 10000000;
+        for(Edge edge : candidateEdges)
+        {
+            System.out.print(edge.point1 + "," +edge.point2 + " length-" + edge.length);
+            int greedyLength = processedNodes[edge.point1].pathLength + edge.length;
+            System.out.println(" greedyLength-" + greedyLength);
+
+            if (greedyLength < currentMinGreedyLength)
+            {
+                currentMinimumEdge = edge;
+                currentMinGreedyLength = greedyLength;
+            }            
+        }
+        
+        return currentMinimumEdge;
+    }
+
+    public ArrayList<Edge> getEdgesWithOneNodeProcessed()
+    {
+        ArrayList<Edge> candidateEdges = new ArrayList<Edge>();
+        for(Edge edge : edges)
+        {
+            if (!Objects.isNull(processedNodes[edge.point1])  && Objects.isNull(processedNodes[edge.point2]))
+            {
+                candidateEdges.add(edge);
+            }
+        }
+        return candidateEdges;       
+    }
+
 
     public void getEdges()
     {

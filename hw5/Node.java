@@ -6,6 +6,9 @@ class Node
 {
     public Set<Edge> edges = new HashSet<Edge>();
     public int pathLength;
-    public boolean isInX;
+
+    public Node() {
+        this.pathLength = 0;
+    }
 
 }
