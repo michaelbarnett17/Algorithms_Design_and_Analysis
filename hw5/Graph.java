@@ -10,13 +10,15 @@ class Graph
     HashMap<Integer, Node> nodes;
     Node[] processedNodes; 
     ArrayList<Integer> distances;
+    int graphSize;
 
-    public Graph(String fileName) 
+    public Graph(String fileName, int graphSize) 
     {
         this.fileName = fileName;
         this.edges = new ArrayList<Edge>();
         this.nodes = new HashMap<Integer, Node>();
-        this.processedNodes = new Node[5];
+        this.processedNodes = new Node[graphSize + 1];
+        this.graphSize = graphSize + 1;
 
         // placeholder since nodes start at 1
         this.processedNodes[0] = new Node();
@@ -129,9 +131,9 @@ class Graph
 
     public void printAnswer()
     {
-        for (Node node : processedNodes)
+        for(int i = 0; i < processedNodes.length; i++)
         {
-            System.out.println(node.pathLength);
+            System.out.println(i + ": " + processedNodes[i].pathLength);
         }
     }
 
