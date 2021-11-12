@@ -17,8 +17,10 @@ class Graph
         this.edges = new ArrayList<Edge>();
         this.nodes = new HashMap<Integer, Node>();
         this.processedNodes = new Node[5];
+
         // placeholder since nodes start at 1
-        this.processedNodes[0] = null;
+        this.processedNodes[0] = new Node();
+        this.processedNodes[0].pathLength = 0;
 
     }
 
@@ -36,12 +38,13 @@ class Graph
 
             Edge edge = getGreedyEdge(candidateEdges);
 
-             System.out.print("This is the greedy edge: " + edge.point1 + "," +edge.point2 + " length-" + edge.length);
-            // TODO: Continue with alogrithm
-            //Remove the correct node here?
+            // System.out.print("This is the greedy edge: " + edge.point1 + "," +edge.point2 + " length-" + edge.length);
+            // System.out.print(" Greedy Length-" + edge.greedyLength);
 
-            // TODO Remove Break
-            break;
+            processedNodes[edge.point2] = nodes.get(edge.point2);
+            processedNodes[edge.point2].pathLength = edge.greedyLength;
+
+            nodes.remove(edge.point2);
         }
     }
 
@@ -53,14 +56,15 @@ class Graph
         int currentMinGreedyLength = 10000000;
         for(Edge edge : candidateEdges)
         {
-            System.out.print(edge.point1 + "," +edge.point2 + " length-" + edge.length);
+            // System.out.print(edge.point1 + "," +edge.point2 + " length-" + edge.length);
             int greedyLength = processedNodes[edge.point1].pathLength + edge.length;
-            System.out.println(" greedyLength-" + greedyLength);
+            // System.out.println(" greedyLength-" + greedyLength);
 
             if (greedyLength < currentMinGreedyLength)
             {
                 currentMinimumEdge = edge;
                 currentMinGreedyLength = greedyLength;
+                currentMinimumEdge.greedyLength = greedyLength;
             }            
         }
         
@@ -121,6 +125,14 @@ class Graph
         }
 
         nodes.put(Integer.parseInt(strings[0]), node);
+    }
+
+    public void printAnswer()
+    {
+        for (Node node : processedNodes)
+        {
+            System.out.println(node.pathLength);
+        }
     }
 
     public void printNodes() 

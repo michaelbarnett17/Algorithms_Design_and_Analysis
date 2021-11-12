@@ -14,5 +14,6 @@ class Homework5
         // graph.printNodes();
         // graph.printEdges();
         graph.calculateShortestPaths();
+        graph.printAnswer();
     }
 }
